@@ -4,6 +4,9 @@ nav {
 form {
     display: none;
 }
+#journal-entry {
+    display: none;
+}
 
 .App {
   text-align: center;
