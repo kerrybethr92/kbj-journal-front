@@ -2,9 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 
 const App = () => {
-    nav bar to include: link to homepage, log in, sign up, create new entry
-    divs in sections will be user's card with name and photo
-    footer will stay at bottom of page and have links to our githubs, etc
+    // nav bar to include: link to homepage, log in, sign up, create new entry
+    // divs in sections will be user's card with name and photo
+    // footer will stay at bottom of page and have links to our githubs, etc
 
     const showLogIn = () => {
         return (
