@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {useState, useEffect} from 'react'
+import axios from 'axios'
 
 const App = () => {
     const [entries, setEntries] = useState([])
@@ -9,7 +10,7 @@ const App = () => {
         axios
             .get('https://journal-back-kbj.herokuapp.com/entries')
             .then((response) => {
-                setEntries(respones.data)
+                setEntries(response.data)
             })
     })
 
