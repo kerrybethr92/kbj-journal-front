@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NewEntry = () => {
+const NewEntry = (props) => {
 
     return (
         <form onSubmit={props.handleNewEntrySubmit()}>
