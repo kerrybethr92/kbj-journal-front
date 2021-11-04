@@ -11,7 +11,7 @@ import NewEntry from './components/NewEntry'
 const App = () => {
     const [newDate, setNewDate] = useState('')
     const [newTitle, setNewTitle] = useState('')
-    const [newEntry, setNewEntry] = useState('')
+    const [newLog, setNewLog] = useState('')
     const [newShare, setNewShare] = useState(false)
     const [entries, setEntries] = useState([])
 
@@ -30,7 +30,7 @@ const App = () => {
             {
                 date:newDate,
                 title:newTitle,
-                entry:newEntry,
+                log:newLog,
                 share:newShare
             }
         ).then(() => {
@@ -47,8 +47,8 @@ const App = () => {
     const handleNewTitleChange = (event) => {
         setNewTitle(event.target.value);
     }
-    const handleNewEntryChange = (event) => {
-        setNewEntry(event.target.value)
+    const handleNewLogChange = (event) => {
+        setNewLog(event.target.value)
     }
     const handleNewShareChange = (event) => {
         setNewShare(event.target.checked)
@@ -90,7 +90,7 @@ const App = () => {
             <NewEntry
                 handleNewDateChange={handleNewDateChange}
                 handleNewTitleChange={handleNewTitleChange}
-                handleNewEntryChange={handleNewEntryChange}
+                handleNewLogChange={handleNewLogChange}
                 handleNewShareChange={handleNewShareChange}
                 handleNewEntrySubmit={handleNewEntrySubmit}
             />
