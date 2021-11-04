@@ -6,8 +6,13 @@ import axios from 'axios'
 import Header from './components/Header'
 // import NavBar from './components/NavBar'
 import UserProfile from './components/UserProfile'
+import NewEntry from './components/NewEntry'
 
 const App = () => {
+    const [newDate, setNewDate] = useState('')
+    const [newTitle, setNewTitle] = useState('')
+    const [newEntry, setNewEntry] = useState('')
+    const [newShare, setNewShare] = useState(false)
     const [entries, setEntries] = useState([])
 
     useEffect(() => {
@@ -16,8 +21,32 @@ const App = () => {
             .then((response) => {
                 setEntries(response.data)
             })
-    })
+    },[])
 
+    const handleNewEntrySubmit = (event) => {
+        event.preventDefault()
+        axios.post(
+            'https://journal-back-kbj.herokuapp.com/entries',
+            {
+                date:newDate,
+                title:newTitle,
+                entry:newEntry,
+                share:newShare
+            }
+        )
+    }
+    const handleNewDateChange = (event) => {
+        setNewDate(event.target.value);
+    }
+    const handleNewTitleChange = (event) => {
+        setNewTitle(event.target.value);
+    }
+    const handleNewEntryChange = (event) => {
+        setNewEntry(event.target.value)
+    }
+    const handleNewShareChange = (event) => {
+        setNewShare(event.target.checked)
+    }
     // const showJournalEntry = (event) => {
     //     let journalEntry = document.getElementById('journal-entry');
     //     if (journalEntry.style.display === "none") {
@@ -39,6 +68,7 @@ const App = () => {
             </ul>
         </nav>
         <main>
+            <h2>Journal Entries</h2>
             <ul>
             {
                 entries.map((entry) => {
@@ -50,6 +80,14 @@ const App = () => {
                 })
             }
             </ul>
+            <h2>Write a new journal entry:</h2>
+            <NewEntry
+                handleNewDateChange={handleNewDateChange}
+                handleNewTitleChange={handleNewTitleChange}
+                handleNewEntryChange={handleNewEntryChange}
+                handleNewShareChange={handleNewShareChange}
+                handleNewEntrySubmit={handleNewEntrySubmit}
+            />
         </main>
     </>)
 }
@@ -74,25 +112,6 @@ export default App;
 //         })
 //     }
 // </section>
-
-// return (
-//     <main>
-//         <section>
-//             <h2>Journal entries:</h2>
-//             <ul>
-                // {
-                //     entries.map((entry) => {
-                //         return <li>
-                //         {entry.data}<br/>
-                //         {entry.title}<br/>
-                //         {entry.log}<br/>
-                //         </li>
-                //     })
-                // }
-//             </ul>
-//         </section>
-//     </main>
-// )
 
 // // nav bar to include: link to homepage, log in, sign up, create new entry
 // // divs in sections will be user's card with name and photo
