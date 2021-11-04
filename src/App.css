@@ -4,7 +4,7 @@ nav {
 form {
     display: none;
 }
-#journal-entry {
+.journal-entry {
     display: none;
 }
 

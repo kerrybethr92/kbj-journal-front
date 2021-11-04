@@ -18,14 +18,14 @@ const App = () => {
             })
     })
 
-    const showJournalEntry = () => {
-        let journalEntry = document.getElementById('journal-entry');
-        if (journalEntry.style.display === "none") {
-            journalEntry.style.display = "block"
-        } else {
-            journalEntry.style.display = "none";
-        }
-    }
+    // const showJournalEntry = (event) => {
+    //     let journalEntry = document.getElementById('journal-entry');
+    //     if (journalEntry.style.display === "none") {
+    //         journalEntry.style.display = "block"
+    //     } else {
+    //         journalEntry.style.display = "none";
+    //     }
+    // }
 
 
     return (
@@ -42,10 +42,10 @@ const App = () => {
             <ul>
             {
                 entries.map((entry) => {
-                    return <li onClick={showJournalEntry}>
+                    return <li>
                     {entry.date}<br/>
                     {entry.title}<br/>
-                    <p id="journal-entry">{entry.log}</p><br/>
+                    <p id={entry._id}>{entry.log}</p><br/>
                     </li>
                 })
             }
