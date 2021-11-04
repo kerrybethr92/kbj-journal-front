@@ -33,7 +33,13 @@ const App = () => {
                 entry:newEntry,
                 share:newShare
             }
-        )
+        ).then(() => {
+            axios
+                .get('https://journal-back-kbj.herokuapp.com/entries')
+                .then((response) => {
+                    setEntries(response.data)
+                })
+        })
     }
     const handleNewDateChange = (event) => {
         setNewDate(event.target.value);
