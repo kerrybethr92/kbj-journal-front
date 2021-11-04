@@ -24,7 +24,7 @@ const App = () => {
     },[])
 
     const handleNewEntrySubmit = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         axios.post(
             'https://journal-back-kbj.herokuapp.com/entries',
             {
