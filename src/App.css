@@ -1,7 +1,9 @@
 nav {
     background-color: blanchedalmond;
 }
-
+li form {
+    display: none;
+}
 .journal-entry {
     display: none;
 }

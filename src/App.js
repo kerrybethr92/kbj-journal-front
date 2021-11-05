@@ -5,8 +5,9 @@ import axios from 'axios'
 
 import Header from './components/Header'
 // import NavBar from './components/NavBar'
-import UserProfile from './components/UserProfile'
+// import UserProfile from './components/UserProfile'
 import NewEntry from './components/NewEntry'
+import EditEntry from './components/EditEntry'
 
 const App = () => {
     const [newDate, setNewDate] = useState('')
@@ -40,6 +41,47 @@ const App = () => {
                     setEntries(response.data)
                 })
         })
+    }
+    const handleShowEditForm = (event) => {
+        let editForm = event.target.parentNode.querySelector('form');
+        if (editForm.style.display === "none") {
+            editForm.style.display = 'block'
+        } else {
+            editForm.style.display = 'none'
+        }
+    }
+    const handleEditEntrySubmit = (event, entryData) => {
+        event.preventDefault();
+        axios
+            .put(
+                `https://journal-back-kbj.herokuapp.com/entries/${entryData._id}`,
+                {
+                    date:newDate || entryData.date,
+                    title:newTitle || entryData.title,
+                    log:newLog || entryData.log,
+                    share:entryData.share
+                }
+            )
+            .then(()=> {
+                axios
+                    .get(`https://journal-back-kbj.herokuapp.com/entries/`)
+                        .then((response) => {
+                            setEntries(response.data)
+                        })
+            })
+            event.target.reset();
+            handleShowEditForm(event);
+    }
+    const handleDelete = (entryData) => {
+        axios
+            .delete(`https://journal-back-kbj.herokuapp.com/entries/${entryData._id}`)
+            .then(()=>{
+                axios
+                    .get(`https://journal-back-kbj.herokuapp.com/entries`)
+                    .then((response) => {
+                        setEntries(response.data)
+                    })
+            })
     }
     const handleNewDateChange = (event) => {
         setNewDate(event.target.value);
@@ -78,10 +120,20 @@ const App = () => {
             <ul>
             {
                 entries.map((entry) => {
-                    return <li>
+                    return <li key={entry._id}>
                     {entry.date}<br/>
                     {entry.title}<br/>
                     <p id={entry._id}>{entry.log}</p><br/>
+                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                    <EditEntry
+                        handleNewDateChange={handleNewDateChange}
+                        handleNewTitleChange={handleNewTitleChange}
+                        handleNewLogChange={handleNewLogChange}
+                        handleNewShareChange={handleNewShareChange}
+                        handleEditEntrySubmit={handleEditEntrySubmit}
+                        entry={entry}
+                    />
+                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
                     </li>
                 })
             }
