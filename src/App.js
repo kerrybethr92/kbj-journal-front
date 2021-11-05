@@ -41,6 +41,7 @@ const App = () => {
                     setEntries(response.data)
                 })
         })
+        event.target.reset();
     }
     const handleShowEditForm = (event) => {
         let editForm = event.target.parentNode.querySelector('form');
