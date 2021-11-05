@@ -110,35 +110,77 @@ const App = () => {
         <>
         <Header/>
         <nav>
-            <ul>
+            <ul id="nav">
                 <li>Home</li>
                 <li>New Entry</li>
                 <li>My Journal</li>
             </ul>
         </nav>
         <main>
-            <h2>Journal Entries</h2>
-            <ul>
-            {
-                entries.map((entry) => {
-                    return <li key={entry._id}>
-                    {entry.date}<br/>
-                    {entry.title}<br/>
-                    <p id={entry._id}>{entry.log}</p><br/>
-                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                    <EditEntry
-                        handleNewDateChange={handleNewDateChange}
-                        handleNewTitleChange={handleNewTitleChange}
-                        handleNewLogChange={handleNewLogChange}
-                        handleNewShareChange={handleNewShareChange}
-                        handleEditEntrySubmit={handleEditEntrySubmit}
-                        entry={entry}
-                    />
-                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                    </li>
-                })
-            }
-            </ul>
+            <h2 id="main-title">secret universe</h2>
+            <div id="secret-container">
+                 <ul id="index">
+                 {
+                     entries.map((entry) => {
+                         if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
+                              return <li id="secret" className="even" key={entry._id}>
+                                   <div className="secret-contents">
+                                   {entry.date}<br/>
+                                   {entry.title}<br/>
+                                   <p id={entry._id}>{entry.log}</p><br/>
+                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                   <EditEntry
+                                       handleNewDateChange={handleNewDateChange}
+                                       handleNewTitleChange={handleNewTitleChange}
+                                       handleNewLogChange={handleNewLogChange}
+                                       handleNewShareChange={handleNewShareChange}
+                                       handleEditEntrySubmit={handleEditEntrySubmit}
+                                       entry={entry}
+                                   />
+                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+                                   </div>
+                              </li>
+                         } else if (parseInt(entry._id.charAt(entry._id.length-1)) % 1 === 0) {
+                              return <li id="secret" className="odd" key={entry._id}>
+                                   <div className="secret-contents">
+                                   {entry.date}<br/>
+                                   {entry.title}<br/>
+                                   <p id={entry._id}>{entry.log}</p><br/>
+                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                   <EditEntry
+                                       handleNewDateChange={handleNewDateChange}
+                                       handleNewTitleChange={handleNewTitleChange}
+                                       handleNewLogChange={handleNewLogChange}
+                                       handleNewShareChange={handleNewShareChange}
+                                       handleEditEntrySubmit={handleEditEntrySubmit}
+                                       entry={entry}
+                                   />
+                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+                                   </div>
+                              </li>
+                         } else {
+                              return <li id="secret" className="letter" key={entry._id}>
+                                   <div className="secret-contents">
+                                   {entry.date}<br/>
+                                   {entry.title}<br/>
+                                   <p id={entry._id}>{entry.log}</p><br/>
+                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                   <EditEntry
+                                       handleNewDateChange={handleNewDateChange}
+                                       handleNewTitleChange={handleNewTitleChange}
+                                       handleNewLogChange={handleNewLogChange}
+                                       handleNewShareChange={handleNewShareChange}
+                                       handleEditEntrySubmit={handleEditEntrySubmit}
+                                       entry={entry}
+                                   />
+                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+                                   </div>
+                              </li>
+                         }
+                     })
+                 }
+                 </ul>
+            </div>
             <h2>Write a new journal entry:</h2>
             <NewEntry
                 handleNewDateChange={handleNewDateChange}
