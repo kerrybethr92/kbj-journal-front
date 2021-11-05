@@ -56,7 +56,7 @@ code {
      white-space: nowrap;
      overflow: hidden;
      transition: ease 2s;
-     font-family: 'Patrick Hand';
+     font-family: 'Chakra Petch';
      text-transform: lowercase;
 }
 
@@ -114,6 +114,17 @@ button {
      background-color: rgb(0,0,0, .2);
      border: 1px solid thistle;
      border-radius: 4px;
+     margin: 5px;
+     color: white;
+     font-family: 'Chakra Petch';
+     text-transform: lowercase;
+     padding: 5px;
+}
+
+button:hover {
+     background-color: thistle;
+     color: black;
+     border: 1px solid palegoldenrod;
 }
 
 @keyframes glow {
