@@ -8,13 +8,36 @@ import Header from './components/Header'
 // import UserProfile from './components/UserProfile'
 import NewEntry from './components/NewEntry'
 import EditEntry from './components/EditEntry'
+import SignUp from './components/SignUp'
+import LogIn from './components/LogIn'
 
 const App = () => {
+    ////////////////////////
+    //// entries states ////
+    ////////////////////////
     const [newDate, setNewDate] = useState('')
     const [newTitle, setNewTitle] = useState('')
     const [newLog, setNewLog] = useState('')
     const [newShare, setNewShare] = useState(false)
     const [entries, setEntries] = useState([])
+
+    //////////////////////
+    //// users states ////
+    //////////////////////
+    const [newName, setNewName] = useState('')
+    const [newUsername, setNewUsername] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [newBio, setNewBio] = useState('')
+    const [newProfilePic, setNewProfilePic] = useState('')
+
+    const [users, setUsers] = useState([])
+    const [currentUser, setCurrentUser] = useState(undefined)
+
+    ///////////////////////
+    //// log in states ////
+    ///////////////////////
+    const [toggleError, setToggleError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
 
     useEffect(() => {
         axios
@@ -84,6 +107,10 @@ const App = () => {
                     })
             })
     }
+
+    //////////////////////////////
+    //// entry change handlers////
+    //////////////////////////////
     const handleNewDateChange = (event) => {
         setNewDate(event.target.value);
     }
@@ -96,6 +123,24 @@ const App = () => {
     const handleNewShareChange = (event) => {
         setNewShare(event.target.checked)
     }
+    //////////////////////////////
+    //// user change handlers ////
+    //////////////////////////////
+    const handleNewNameChange = (event) => {
+        setNewName(event.target.value);
+    }
+    const handleNewUsernameChange = (event) => {
+        setNewUsername(event.target.value);
+    }
+    const handleNewPasswordChange = (event) => {
+        setNewPassword(event.target.value);
+    }
+    const handleNewBioChange = (event) => {
+        setNewBio(event.target.value);
+    }
+    const handleNewProfilePicChange = (event) => {
+        setNewProfilePic(event.target.value);
+    }
     // const showJournalEntry = (event) => {
     //     let journalEntry = document.getElementById('journal-entry');
     //     if (journalEntry.style.display === "none") {
@@ -105,6 +150,56 @@ const App = () => {
     //     }
     // }
 
+    const showSignUp = () => {
+        let signUp = document.getElementById('sign-up');
+        if (signUp.style.display === "none") {
+            signUp.style.display = "block"
+        } else {
+            signUp.style.display = "none";
+        }
+    }
+    const handleNewSignUp = (event) => {
+        event.preventDefault()
+        axios.post(
+            'https://journal-back-kbj.herokuapp.com/users/createaccount',
+            {
+                name:newName,
+                username:newUsername,
+                password:newPassword,
+                bio:newBio,
+                profilePic:newProfilePic || 'https://i.pinimg.com/originals/c8/fc/b7/c8fcb7cb0df7ffd3879479cd56209954.jpg'
+            }
+        ).then((response) => {
+            setCurrentUser(response.data)
+        })
+        event.target.reset()
+        showSignUp(event)
+    }
+
+    const showLogIn = () => {
+        let logInForm = document.getElementById('log-in');
+        if (logInForm.style.display === "none") {
+            logInForm.style.display = "block"
+        } else {
+            logInForm.style.display = "none";
+        }
+    }
+    const handleNewLogIn = (userObj) => {
+        console.log(userObj); // for shits and giggles
+        axios.put('https://journal-back-kbj.herokuapp.com/users/login', userObj).then((response) => {
+            if (response.data.username) {
+                console.log(response);
+                setToggleError(false)
+                setErrorMessage('')
+                setCurrentUser(response.data)
+
+            } else {
+                console.log(response);
+                setToggleError(true)
+                setErrorMessage(response.data)
+            }
+        })
+    }
 
     return (
         <>
@@ -112,8 +207,27 @@ const App = () => {
         <nav>
             <ul>
                 <li>Home</li>
+                {currentUser && <li>Welcome {currentUser.username}</li>}
+                <li><button onClick={showSignUp}>Sign Up</button>
+                    <SignUp
+                        handleNewNameChange={handleNewNameChange}
+                        handleNewUsernameChange={handleNewUsernameChange}
+                        handleNewPasswordChange={handleNewPasswordChange}
+                        handleNewBioChange={handleNewBioChange}
+                        handleNewProfilePicChange={handleNewProfilePicChange}
+                        handleNewSignUp={handleNewSignUp}
+                        setCurrentUser={setCurrentUser}
+                    />
+                </li>
+
+                <li><button onClick={showLogIn}>Log in</button></li>
+                    <LogIn
+                        handleNewLogIn={handleNewLogIn}
+                        toggleError={toggleError}
+                        errorMessage={errorMessage}
+                    />
+
                 <li>New Entry</li>
-                <li>My Journal</li>
             </ul>
         </nav>
         <main>
