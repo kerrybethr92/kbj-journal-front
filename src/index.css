@@ -20,7 +20,7 @@ code {
      font-family: 'Chakra Petch';
      font-style: italic;
      font-size: 50px;
-     text-shadow: 1px 1px 8px #ebf4ff;
+     text-shadow: -4px .5px 8px #ebf4ff;
 }
 
 #nav {
