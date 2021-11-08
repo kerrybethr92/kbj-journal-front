@@ -247,27 +247,74 @@ const App = () => {
                <ul>
             {
                 entries.map((entry) => {
-                    return <div>
-                    <button className="even" id="openModal" onClick={openModalButton}></button>
-                         <div id="modal">
-                         <div id="modal-textbox">
-                              <button id="closeModal" onClick={closeModalButton}>close</button>
-                              <p id={entry._id}>{entry.log}</p><br/>
-                              <p>{entry.date}</p><br/>
-                              <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                              <EditEntry
-                                  handleNewDateChange={handleNewDateChange}
-                                  handleNewTitleChange={handleNewTitleChange}
-                                  handleNewLogChange={handleNewLogChange}
-                                  handleNewShareChange={handleNewShareChange}
-                                  handleEditEntrySubmit={handleEditEntrySubmit}
-                                  entry={entry}
-                              />
-                              <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+                     if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
+                          return <div>
+                          <button className="even" id="openModal" onClick={openModalButton}></button>
+                               <div id="modal">
+                               <div id="modal-textbox">
+                                    <button id="closeModal" onClick={closeModalButton}>close</button>
+                                    <p id={entry._id}>{entry.log}</p><br/>
+                                    <p>{entry.date}</p><br/>
+                                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                    <EditEntry
+                                        handleNewDateChange={handleNewDateChange}
+                                        handleNewTitleChange={handleNewTitleChange}
+                                        handleNewLogChange={handleNewLogChange}
+                                        handleNewShareChange={handleNewShareChange}
+                                        handleEditEntrySubmit={handleEditEntrySubmit}
+                                        entry={entry}
+                                    />
+                                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
 
-                         </div>
-                         </div>
-                         </div>
+                               </div>
+                               </div>
+                               </div>
+                     } else if (parseInt(entry._id.charAt(entry._id.length-1)) % 1 === 0) {
+                          return <div>
+                          <button className="odd" id="openModal" onClick={openModalButton}></button>
+                               <div id="modal">
+                               <div id="modal-textbox">
+                                    <button id="closeModal" onClick={closeModalButton}>close</button>
+                                    <p id={entry._id}>{entry.log}</p><br/>
+                                    <p>{entry.date}</p><br/>
+                                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                    <EditEntry
+                                        handleNewDateChange={handleNewDateChange}
+                                        handleNewTitleChange={handleNewTitleChange}
+                                        handleNewLogChange={handleNewLogChange}
+                                        handleNewShareChange={handleNewShareChange}
+                                        handleEditEntrySubmit={handleEditEntrySubmit}
+                                        entry={entry}
+                                    />
+                                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+
+                               </div>
+                               </div>
+                               </div>
+                     } else {
+                          return <div>
+                          <button className="letter" id="openModal" onClick={openModalButton}></button>
+                               <div id="modal">
+                               <div id="modal-textbox">
+                                    <button id="closeModal" onClick={closeModalButton}>close</button>
+                                    <p id={entry._id}>{entry.log}</p><br/>
+                                    <p>{entry.date}</p><br/>
+                                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                    <EditEntry
+                                        handleNewDateChange={handleNewDateChange}
+                                        handleNewTitleChange={handleNewTitleChange}
+                                        handleNewLogChange={handleNewLogChange}
+                                        handleNewShareChange={handleNewShareChange}
+                                        handleEditEntrySubmit={handleEditEntrySubmit}
+                                        entry={entry}
+                                    />
+                                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+
+                               </div>
+                               </div>
+                               </div>
+                     }
+
                 })
             }
             </ul>

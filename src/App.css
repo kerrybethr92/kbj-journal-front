@@ -46,6 +46,29 @@ li form {
      animation-iteration-count: infinite;
 }
 
+.odd {
+     width: 10px;
+     height: 10px;
+     background-color: thistle;
+     border-radius: 9px;
+     margin-top: 25px;
+     animation-name: glow;
+     animation-duration: 10s;
+     animation-iteration-count: infinite;
+}
+
+.letter {
+     width: 10px;
+     height: 10px;
+     background-color: whitesmoke;
+     border-radius: 9px;
+     margin-top: 60px;
+     animation-name: glow;
+     animation-duration: 10s;
+     animation-iteration-count: infinite;
+}
+
+
 @keyframes glow {
      0% {
           box-shadow: 4px 4px 30px 1px thistle, -4px -4px 30px 1px thistle;
