@@ -67,7 +67,7 @@ const App = () => {
         event.target.reset();
     }
     const handleShowEditForm = (event) => {
-        event.stopPropagation()
+        // event.stopPropagation()
         let editForm = event.target.parentNode.querySelector('form');
         if (editForm.style.display === "none") {
             editForm.style.display = 'block'
@@ -203,8 +203,9 @@ const App = () => {
         }
     }
 
-    const openModalButton = () => {
-        let modal = document.getElementById('modal');
+    const openModalButton = (modalId) => {
+        let modal = document.getElementById(modalId);
+        console.log(modal);
         console.log("from open modal function");
         if (modal.style.display !== "block") {
             modal.style.display = "block"
@@ -214,15 +215,18 @@ const App = () => {
     const closeModalButton = (event) => {
         event.stopPropagation() // Sam helped me figure out that my second onClick function was bubbling and by adding this on my second click function, it would prevent bubbling
         console.log("hi");
-        let modal = document.getElementById('modal');
-        console.log(modal);
-        if (modal.style.display !== "none") {
-             modal.style.display = "none"
-             console.log(modal.style.display);
-             console.log(modal);
-        } else {
-             console.log(modal.style.display);
+        let modals = document.getElementsByClassName('modal');
+        console.log(modals);
+        for (let i = 0; i < modals.length; i++) {
+             modals[i].style.display = "none"
         }
+        // if (modal.style.display !== "none") {
+        //      modal.style.display = "none"
+        //      console.log(modal.style.display);
+        //      console.log(modal);
+        // } else {
+        //      console.log(modal.style.display);
+        // }
     }
 
     return (
@@ -255,73 +259,32 @@ const App = () => {
                <ul id="index">
             {
                 entries.map((entry) => {
-                     if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
-                          return <div>
-                          <div className="even" id="openModal" onClick={openModalButton}></div>
-                               <div id="modal">
-                               <div id="modal-textbox">
-                                    <button id="closeModal" onClick={closeModalButton}>close</button>
-                                    <p id={entry._id}>{entry.log}</p><br/>
-                                    <p>{entry.date}</p><br/>
-                                    <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
-                                    <EditEntry
-                                        handleNewDateChange={handleNewDateChange}
-                                        handleNewTitleChange={handleNewTitleChange}
-                                        handleNewLogChange={handleNewLogChange}
-                                        handleNewShareChange={handleNewShareChange}
-                                        handleEditEntrySubmit={handleEditEntrySubmit}
-                                        entry={entry}
-                                    />
-                                    <button onClick={(event) => {handleDelete(entry)}}>delete</button>
-
-                               </div>
-                               </div>
-                               </div>
-                     } else if (parseInt(entry._id.charAt(entry._id.length-1)) % 1 === 0) {
-                          return <div>
-                          <div className="odd" id="openModal" onClick={openModalButton}></div>
-                               <div id="modal">
-                               <div id="modal-textbox">
-                                    <button id="closeModal" onClick={closeModalButton}>close</button>
-                                    <p id={entry._id}>{entry.log}</p><br/>
-                                    <p>{entry.date}</p><br/>
-                                    <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
-                                    <EditEntry
-                                        handleNewDateChange={handleNewDateChange}
-                                        handleNewTitleChange={handleNewTitleChange}
-                                        handleNewLogChange={handleNewLogChange}
-                                        handleNewShareChange={handleNewShareChange}
-                                        handleEditEntrySubmit={handleEditEntrySubmit}
-                                        entry={entry}
-                                    />
-                                    <button onClick={(event) => {handleDelete(entry)}}>delete</button>
-
-                               </div>
-                               </div>
-                               </div>
-                     } else {
-                          return <div>
-                          <div className="letter" id="openModal" onClick={openModalButton}></div>
-                               <div id="modal">
-                               <div id="modal-textbox">
-                                    <button id="closeModal" onClick={closeModalButton}>close</button>
-                                    <p id={entry._id}>{entry.log}</p><br/>
-                                    <p>{entry.date}</p><br/>
-                                    <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
-                                    <EditEntry
-                                        handleNewDateChange={handleNewDateChange}
-                                        handleNewTitleChange={handleNewTitleChange}
-                                        handleNewLogChange={handleNewLogChange}
-                                        handleNewShareChange={handleNewShareChange}
-                                        handleEditEntrySubmit={handleEditEntrySubmit}
-                                        entry={entry}
-                                    />
-                                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-
-                               </div>
-                               </div>
-                               </div>
-                     }
+                     console.log(parseInt(entry._id.charAt(entry._id.length-1)));
+                     console.log(entry.log);
+                     console.log(entry.date);
+                     return (
+                              <div>
+                                   <div className="odd" id={`openModal${entry._id}`} onClick={() => {openModalButton(`modal${entry._id}`)}} key={entry._id}>
+                                   </div>
+                                   <div className="modal" id={`modal${entry._id}`}>
+                                         <div className="modal-textbox" id={`modal-textbox${entry._id}`} key={entry._id}>
+                                              <button id="closeModal" onClick={closeModalButton}>close</button>
+                                              <p>{entry.log}</p><br/>
+                                              <p>{entry.date}</p><br/>
+                                              <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
+                                              <EditEntry
+                                                  handleNewDateChange={handleNewDateChange}
+                                                  handleNewTitleChange={handleNewTitleChange}
+                                                  handleNewLogChange={handleNewLogChange}
+                                                  handleNewShareChange={handleNewShareChange}
+                                                  handleEditEntrySubmit={handleEditEntrySubmit}
+                                                  entry={entry}
+                                              />
+                                              <button onClick={(event) => {handleDelete(entry)}}>delete</button>
+                                         </div>
+                                    </div>
+                              </div>
+                         )
 
                 })
             }

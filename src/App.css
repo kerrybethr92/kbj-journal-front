@@ -50,7 +50,7 @@ main {
      gap: 80px;
 }
 
-#modal {
+.modal {
      display: none;
 	background-color: rgba(0,0,0,0.8);
 	position: fixed;
@@ -62,7 +62,7 @@ main {
 	overflow: auto;
 }
 
-#modal-textbox {
+.modal-textbox {
 	background-color: rgba(0,0,0,1);
 	height: 250px;
 	width: 450px;
