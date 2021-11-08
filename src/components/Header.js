@@ -3,7 +3,7 @@ import React from 'react'
 const Header = () => {
     return (
         <header>
-            <h1>KBJ Journal App</h1>
+            <h1>secret universe</h1>
         </header>
     )
 }

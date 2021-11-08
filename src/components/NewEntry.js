@@ -3,7 +3,7 @@ import React from 'react'
 const NewEntry = (props) => {
 
     return (
-        <form onSubmit={props.handleNewEntrySubmit}>
+        <form id="new-secret" onSubmit={props.handleNewEntrySubmit}>
             <label for="date">Date:</label>
             <input type="date" name="date" onChange={props.handleNewDateChange}/><br/>
             <label for="title">Title:</label>

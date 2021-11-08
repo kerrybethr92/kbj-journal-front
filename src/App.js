@@ -31,13 +31,70 @@ const App = () => {
     const [newProfilePic, setNewProfilePic] = useState('')
 
     const [users, setUsers] = useState([])
-    const [currentUser, setCurrentUser] = useState(undefined)
+    // const [currentUser, setCurrentUser] = useState(undefined)
 
     ///////////////////////
     //// log in states ////
     ///////////////////////
     const [toggleError, setToggleError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [toggleLogin, setToggleLogin] = useState(true)
+
+
+    const [toggleLogout, setToggleLogout] = useState(false)
+    const [currentUser, setCurrentUser] = useState({})
+
+    const handleLogout = () => {
+    setCurrentUser({})
+    handleToggleLogout()
+  }
+  const handleToggleForm = () => {
+   setToggleError(false)
+   if(toggleLogin === true) {
+     setToggleLogin(false)
+   } else {
+     setToggleLogin(true)
+   }
+ }
+
+ const handleToggleLogout = () => {
+   if(toggleLogout) {
+     setToggleLogout(false)
+   } else {
+     setToggleLogout(true)
+   }
+ }
+ const handleLogin = (userObj) => {
+      console.log(userObj);
+    axios.put('https://journal-back-kbj.herokuapp.com/users/login', userObj).then((response) => {
+      if(response.data.username){
+        console.log(response);
+        setToggleError(false)
+        setErrorMessage('')
+        setCurrentUser(response.data)
+        handleToggleLogout()
+      } else {
+        console.log(response);
+        setToggleError(true)
+        setErrorMessage(response.data)
+      }
+    })
+  }
+
+  const handleCreateUser = (userObj) => {
+    axios.post('https://journal-back-kbj.herokuapp.com/users/createaccount', userObj).then((response) => {
+      if(response.data.username){
+        console.log(response);
+        setToggleError(false)
+        setErrorMessage('')
+        setCurrentUser(response.data)
+        handleToggleLogout()
+      } else {
+        setErrorMessage(response.data)
+        setToggleError(true)
+      }
+    })
+  }
 
     useEffect(() => {
         axios
@@ -46,6 +103,16 @@ const App = () => {
                 setEntries(response.data)
             })
     },[])
+
+
+    const showNewSecretForm = () => {
+        let newSecret = document.getElementById('new-secret');
+        if (newSecret.style.display === "none") {
+            newSecret.style.display = "block"
+        } else {
+            newSecret.style.display = "none";
+        }
+    }
 
     const handleNewEntrySubmit = (event) => {
         event.preventDefault();
@@ -149,14 +216,6 @@ const App = () => {
     //         journalEntry.style.display = "none";
     //     }
     // }
-    // const openSecret = () => {
-    //      let secret = document.getElementById("secret")
-    //      if (secret.id === 'secret') {
-    //           document.getElementById("secret").classList.toggle('show')
-    //      } else {
-    //           document.getElementById("secret").classList.remove('show')
-    //      }
-    // }
 
     const showSignUp = () => {
         let signUp = document.getElementById('sign-up');
@@ -213,104 +272,59 @@ const App = () => {
         <>
         <Header/>
         <nav>
-            <ul id="nav">
-                <li>Home</li>
-                {currentUser && <li>Welcome {currentUser.username}</li>}
-                <li><button onClick={showSignUp}>Sign Up</button>
-                    <SignUp
-                        handleNewNameChange={handleNewNameChange}
-                        handleNewUsernameChange={handleNewUsernameChange}
-                        handleNewPasswordChange={handleNewPasswordChange}
-                        handleNewBioChange={handleNewBioChange}
-                        handleNewProfilePicChange={handleNewProfilePicChange}
-                        handleNewSignUp={handleNewSignUp}
-                        setCurrentUser={setCurrentUser}
-                    />
-                </li>
+        <div className="App">
+              <div>
+                {toggleLogout ?
+                  <button onClick={handleLogout} class='logoutBtn'>Logout</button> :
+                  <div class='appFormDiv'>
+                    {toggleLogin ?
+                    <LogIn handleLogin={handleLogin} toggleError={toggleError} errorMessage={errorMessage}/>
+                    :
+                    <SignUp handleCreateUser={handleCreateUser} toggleError={toggleError} errorMessage={errorMessage}/>
+                    }
+                    <button onClick={handleToggleForm} class='accountBtn'>{toggleLogin ? 'Need an account?' : 'Already have an account?'}</button>
+                  </div>
+                }
 
-                <li><button onClick={showLogIn}>Log in</button></li>
-                    <LogIn
-                        handleNewLogIn={handleNewLogIn}
-                        toggleError={toggleError}
-                        errorMessage={errorMessage}
-                    />
 
-                <li>New Entry</li>
-            </ul>
+              </div>
+              {currentUser.username ?
+                <div class='loggedInDiv'>
+                  <h1>This entire div will only show if a user is currently logged in</h1>
+                  <h2>So you could show profile info, or whatever else you want to be authentication protected!</h2>
+                  <h3>And you could even stick other React components in here!</h3>
+                </div>
+                :
+                null
+              }
+            </div>
+            
         </nav>
         <main>
-            <h2 id="main-title">secret universe</h2>
-            <div id="secret-container">
-                 <ul id="index">
-                 {
-                     entries.map((entry) => {
-                         if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
-                              return <li id="secret" className="even" key={entry._id}>
-                                   <div className="secret-contents">
-                                   {entry.date}<br/>
-                                   {entry.title}<br/>
-                                   <p id={entry._id}>{entry.log}</p><br/>
-                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                                   <EditEntry
-                                       handleNewDateChange={handleNewDateChange}
-                                       handleNewTitleChange={handleNewTitleChange}
-                                       handleNewLogChange={handleNewLogChange}
-                                       handleNewShareChange={handleNewShareChange}
-                                       handleEditEntrySubmit={handleEditEntrySubmit}
-                                       entry={entry}
-                                   />
-                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                                   </div>
-                              </li>
-                         } else if (parseInt(entry._id.charAt(entry._id.length-1)) % 1 === 0) {
-                              return <li id="secret" className="odd" key={entry._id}>
-                                   <div className="secret-contents">
-                                   {entry.date}<br/>
-                                   {entry.title}<br/>
-                                   <p id={entry._id}>{entry.log}</p><br/>
-                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                                   <EditEntry
-                                       handleNewDateChange={handleNewDateChange}
-                                       handleNewTitleChange={handleNewTitleChange}
-                                       handleNewLogChange={handleNewLogChange}
-                                       handleNewShareChange={handleNewShareChange}
-                                       handleEditEntrySubmit={handleEditEntrySubmit}
-                                       entry={entry}
-                                   />
-                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                                   </div>
-                              </li>
-                         } else {
-                              return <li id="secret" className="letter" key={entry._id}>
-                                   <div className="secret-contents">
-                                   {entry.date}<br/>
-                                   {entry.title}<br/>
-                                   <p id={entry._id}>{entry.log}</p><br/>
-                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                                   <EditEntry
-                                       handleNewDateChange={handleNewDateChange}
-                                       handleNewTitleChange={handleNewTitleChange}
-                                       handleNewLogChange={handleNewLogChange}
-                                       handleNewShareChange={handleNewShareChange}
-                                       handleEditEntrySubmit={handleEditEntrySubmit}
-                                       entry={entry}
-                                   />
-                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                                   </div>
-                              </li>
-                         }
-                     })
-                 }
-                 </ul>
-            </div>
+            <h2>Journal Entries</h2>
+            <ul>
+            {
+                entries.map((entry) => {
+                    return <li key={entry._id}>
+                    {entry.date}<br/>
+                    {entry.title}<br/>
+                    <p id={entry._id}>{entry.log}</p><br/>
+                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                    <EditEntry
+                        handleNewDateChange={handleNewDateChange}
+                        handleNewTitleChange={handleNewTitleChange}
+                        handleNewLogChange={handleNewLogChange}
+                        handleNewShareChange={handleNewShareChange}
+                        handleEditEntrySubmit={handleEditEntrySubmit}
+                        entry={entry}
+                    />
+                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+                    </li>
+                })
+            }
+            </ul>
             <h2>Write a new journal entry:</h2>
-            <NewEntry
-                handleNewDateChange={handleNewDateChange}
-                handleNewTitleChange={handleNewTitleChange}
-                handleNewLogChange={handleNewLogChange}
-                handleNewShareChange={handleNewShareChange}
-                handleNewEntrySubmit={handleNewEntrySubmit}
-            />
+
         </main>
     </>)
 }
