@@ -248,7 +248,7 @@ const App = () => {
             {
                 entries.map((entry) => {
                     return <div>
-                    <button id="openModal" onClick={openModalButton}></button>
+                    <button className="even" id="openModal" onClick={openModalButton}></button>
                          <div id="modal">
                          <div id="modal-textbox">
                               <button id="closeModal" onClick={closeModalButton}>close</button>

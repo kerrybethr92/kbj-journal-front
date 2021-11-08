@@ -33,3 +33,34 @@ li form {
      margin: 150px auto;
      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
+
+.even {
+     width: 10px;
+     height: 10px;
+     background-color: #ebf4ff;
+     border-radius: 9px;
+     border: 1px solid gray;
+     margin-top: 50px;
+     animation-name: glow;
+     animation-duration: 10s;
+     animation-iteration-count: infinite;
+}
+
+@keyframes glow {
+     0% {
+          box-shadow: 4px 4px 30px 1px thistle, -4px -4px 30px 1px thistle;
+          transition: ease-in .5s;
+     }
+     25% {
+          box-shadow: 4px 4px 30px 1px gray, -4px -4px 30px 1px gray;
+          transition: ease-in .5s;
+     }
+     50% {
+          box-shadow: 4px 4px 30px 1px palegoldenrod, -4px -4px 30px 1px palegoldenrod;
+          transition: ease-in .5s;
+     }
+     100% {
+          box-shadow: 4px 4px 30px 1px gray, -4px -4px 30px 1px gray;
+          transition: ease-in .5s;
+     }
+}
