@@ -16,13 +16,13 @@
 //             </li>
 //
 //             <li onClick={showSignUp}>Sign Up
-//                 <form id="sign-up">
-//                     <label for="username">User name:</label>
-//                     <input type="text" name="username" required/>
-//                     <label for="password"> Password:</label>
-//                     <input type="password" name="password" required/>
-//                     <input type="submit" value="Sign Up"/>
-//                 </form>
+                // <form id="sign-up">
+                //     <label for="username">User name:</label>
+                //     <input type="text" name="username" required/>
+                //     <label for="password"> Password:</label>
+                //     <input type="password" name="password" required/>
+                //     <input type="submit" value="Sign Up"/>
+                // </form>
 //             </li>
 //
 //             <li onClick={showNewEntryBox}>New Entry

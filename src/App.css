@@ -4,6 +4,9 @@
 li form {
     display: none;
 }
+#log-in{
+    display: none;
+}
 .journal-entry {
     display: none;
 }
