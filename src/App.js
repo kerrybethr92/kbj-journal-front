@@ -104,6 +104,14 @@ const App = () => {
     //         journalEntry.style.display = "none";
     //     }
     // }
+    // const openSecret = () => {
+    //      let secret = document.getElementById("secret")
+    //      if (secret.id === 'secret') {
+    //           document.getElementById("secret").classList.toggle('show')
+    //      } else {
+    //           document.getElementById("secret").classList.remove('show')
+    //      }
+    // }
 
 
     return (
