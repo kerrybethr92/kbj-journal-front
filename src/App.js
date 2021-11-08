@@ -249,7 +249,7 @@ const App = () => {
                 entries.map((entry) => {
                      if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
                           return <div>
-                          <button className="even" id="openModal" onClick={openModalButton}></button>
+                          <div className="even" id="openModal" onClick={openModalButton}></div>
                                <div id="modal">
                                <div id="modal-textbox">
                                     <button id="closeModal" onClick={closeModalButton}>close</button>
@@ -271,7 +271,7 @@ const App = () => {
                                </div>
                      } else if (parseInt(entry._id.charAt(entry._id.length-1)) % 1 === 0) {
                           return <div>
-                          <button className="odd" id="openModal" onClick={openModalButton}></button>
+                          <div className="odd" id="openModal" onClick={openModalButton}></div>
                                <div id="modal">
                                <div id="modal-textbox">
                                     <button id="closeModal" onClick={closeModalButton}>close</button>
@@ -293,7 +293,7 @@ const App = () => {
                                </div>
                      } else {
                           return <div>
-                          <button className="letter" id="openModal" onClick={openModalButton}></button>
+                          <div className="letter" id="openModal" onClick={openModalButton}></div>
                                <div id="modal">
                                <div id="modal-textbox">
                                     <button id="closeModal" onClick={closeModalButton}>close</button>
