@@ -12,7 +12,7 @@ li form {
 }
 
 #modal {
-     display: none;
+     display:none;
 	background-color: rgba(0,0,0,0.4);
 	position: fixed;
 	top: 0;
@@ -31,7 +31,5 @@ li form {
 	width: 550px;
 	border-radius: 2px;
      margin: 150px auto;
-     /*This will set the margins for the top and the bottom to 150px (or larger). The right and left will automatically set themselves (and keep the box centered horizontally).*/
      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-     /*This will give the box some depth.*/
 }

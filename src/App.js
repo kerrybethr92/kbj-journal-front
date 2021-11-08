@@ -195,30 +195,34 @@ const App = () => {
 
     const openModalButton = () => {
         let modal = document.getElementById('modal');
-        if (modal.style.display === "none") {
+        console.log("from open modal function");
+        if (modal.style.display !== "block") {
             modal.style.display = "block"
-        } else {
-            modal.style.display = "none";
         }
     }
-
-    const closeModalButton = () => {
+    //
+    const closeModalButton = (event) => {
+        event.stopPropagation() // Sam helped me figure out that my second onClick function was bubbling and by adding this on my second click function, it would prevent bubbling
+        console.log("hi");
         let modal = document.getElementById('modal');
-        if (modal.style.display === "none") {
-            modal.style.display = "block"
+        console.log(modal);
+        if (modal.style.display !== "none") {
+             modal.style.display = "none"
+             console.log(modal.style.display);
+             console.log(modal);
         } else {
-            modal.style.display = "none";
+             console.log(modal.style.display);
         }
     }
 
     return (
-        <>
-        <Header/>
-        <nav>
-            <ul>
-                <li>Home</li>
-                {currentUser && <li>Welcome {currentUser.username}</li>}
-                <li><button onClick={showSignUp}>Sign Up</button>
+          <>
+          <Header/>
+          <nav>
+               <ul id="nav">
+                    <li>Home</li>
+                    {currentUser && <li>Welcome {currentUser.username}</li>}
+                    <li><button onClick={showSignUp}>Sign Up</button>
                     <SignUp
                         handleNewNameChange={handleNewNameChange}
                         handleNewUsernameChange={handleNewUsernameChange}
@@ -228,21 +232,19 @@ const App = () => {
                         handleNewSignUp={handleNewSignUp}
                         setCurrentUser={setCurrentUser}
                     />
-                </li>
-
-                <li><button onClick={showLogIn}>Log in</button></li>
+                    </li>
+                    <li><button onClick={showLogIn}>Log in</button></li>
                     <LogIn
                         handleNewLogIn={handleNewLogIn}
                         toggleError={toggleError}
                         errorMessage={errorMessage}
                     />
-
-                <li>New Entry</li>
-            </ul>
-        </nav>
-        <main>
-            <h2>Journal Entries</h2>
-            <ul>
+                    <li>New Entry</li>
+               </ul>
+          </nav>
+          <main>
+               <h2>entries</h2>
+               <ul>
             {
                 entries.map((entry) => {
                     return <div>
@@ -269,15 +271,15 @@ const App = () => {
                 })
             }
             </ul>
-            <h2>Write a new journal entry:</h2>
-            <NewEntry
-                handleNewDateChange={handleNewDateChange}
-                handleNewTitleChange={handleNewTitleChange}
-                handleNewLogChange={handleNewLogChange}
-                handleNewShareChange={handleNewShareChange}
-                handleNewEntrySubmit={handleNewEntrySubmit}
-            />
-        </main>
+               <h2>Write a new journal entry:</h2>
+               <NewEntry
+                    handleNewDateChange={handleNewDateChange}
+                    handleNewTitleChange={handleNewTitleChange}
+                    handleNewLogChange={handleNewLogChange}
+                    handleNewShareChange={handleNewShareChange}
+                    handleNewEntrySubmit={handleNewEntrySubmit}
+               />
+          </main>
     </>)
 }
 
