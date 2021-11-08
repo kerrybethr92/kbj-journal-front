@@ -1,5 +1,11 @@
+body {
+     background-image: url(https://i.imgur.com/qu4DvZc.jpeg);
+     color: white;
+     font-family: 'Chakra Petch'
+}
+
 nav {
-    background-color: blanchedalmond;
+    /* background-color: blanchedalmond; */
 }
 li form {
     display: none;
@@ -31,9 +37,7 @@ li form {
 	height: 100%;
 	width: 100%;
 	z-index: 1;
-	/*This puts our modal in front of the body (which has a default z-index setting of `0`*/
 	overflow: auto;
-	/*If overflow is clipped, a scroll-bar should be added to see the rest of the content*/
 }
 
 #modal-textbox {
