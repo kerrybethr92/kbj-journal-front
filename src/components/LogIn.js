@@ -21,7 +21,7 @@ const LogIn = (props) => {
                 <label for="password"> Password:</label>
                 <input type="password" name="password" required onChange={(event)=> {setPassword(event.target.value)}}/><br/>
 
-                <input type="submit" value="Login"/>
+                <input id="submit" type="submit" value="login"/>
             </form>
         </>
     )

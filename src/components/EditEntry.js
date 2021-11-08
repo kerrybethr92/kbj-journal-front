@@ -15,7 +15,7 @@ const EditEntry = (props) => {
             <label for="share">Public:</label>
             <input type="checkbox" name="share" onChange={props.handleNewShareChange}/><br/>
 
-            <input type="submit" value="Submit Edit"/>
+            <input id="submit" type="submit" value="submit edit"/>
         </form>
     )
 }

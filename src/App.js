@@ -67,6 +67,7 @@ const App = () => {
         event.target.reset();
     }
     const handleShowEditForm = (event) => {
+        event.stopPropagation()
         let editForm = event.target.parentNode.querySelector('form');
         if (editForm.style.display === "none") {
             editForm.style.display = 'block'
@@ -193,6 +194,15 @@ const App = () => {
         })
     }
 
+    const showNewSecretForm = () => {
+        let secretForm = document.getElementById('newSecret');
+        if (secretForm.style.display === "none") {
+            secretForm.style.display = "block"
+        } else {
+            secretForm.style.display = "none";
+        }
+    }
+
     const openModalButton = () => {
         let modal = document.getElementById('modal');
         console.log("from open modal function");
@@ -239,11 +249,9 @@ const App = () => {
                         toggleError={toggleError}
                         errorMessage={errorMessage}
                     />
-                    <li>New Entry</li>
                </ul>
           </nav>
           <main>
-               <h2>entries</h2>
                <ul id="index">
             {
                 entries.map((entry) => {
@@ -255,7 +263,7 @@ const App = () => {
                                     <button id="closeModal" onClick={closeModalButton}>close</button>
                                     <p id={entry._id}>{entry.log}</p><br/>
                                     <p>{entry.date}</p><br/>
-                                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                    <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
                                     <EditEntry
                                         handleNewDateChange={handleNewDateChange}
                                         handleNewTitleChange={handleNewTitleChange}
@@ -264,7 +272,7 @@ const App = () => {
                                         handleEditEntrySubmit={handleEditEntrySubmit}
                                         entry={entry}
                                     />
-                                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+                                    <button onClick={(event) => {handleDelete(entry)}}>delete</button>
 
                                </div>
                                </div>
@@ -277,7 +285,7 @@ const App = () => {
                                     <button id="closeModal" onClick={closeModalButton}>close</button>
                                     <p id={entry._id}>{entry.log}</p><br/>
                                     <p>{entry.date}</p><br/>
-                                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                    <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
                                     <EditEntry
                                         handleNewDateChange={handleNewDateChange}
                                         handleNewTitleChange={handleNewTitleChange}
@@ -286,7 +294,7 @@ const App = () => {
                                         handleEditEntrySubmit={handleEditEntrySubmit}
                                         entry={entry}
                                     />
-                                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+                                    <button onClick={(event) => {handleDelete(entry)}}>delete</button>
 
                                </div>
                                </div>
@@ -299,7 +307,7 @@ const App = () => {
                                     <button id="closeModal" onClick={closeModalButton}>close</button>
                                     <p id={entry._id}>{entry.log}</p><br/>
                                     <p>{entry.date}</p><br/>
-                                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                                    <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
                                     <EditEntry
                                         handleNewDateChange={handleNewDateChange}
                                         handleNewTitleChange={handleNewTitleChange}
@@ -318,7 +326,8 @@ const App = () => {
                 })
             }
             </ul>
-               <h2>Write a new journal entry:</h2>
+               <div id="share-secret-form">
+               <h2>share a secret</h2>
                <NewEntry
                     handleNewDateChange={handleNewDateChange}
                     handleNewTitleChange={handleNewTitleChange}
@@ -326,6 +335,7 @@ const App = () => {
                     handleNewShareChange={handleNewShareChange}
                     handleNewEntrySubmit={handleNewEntrySubmit}
                />
+               </div>
           </main>
     </>)
 }

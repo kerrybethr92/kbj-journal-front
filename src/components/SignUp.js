@@ -19,7 +19,7 @@ const SignUp = (props) => {
                 <label for="profilePic">Profile Picture:</label>
                 <input type="text" name="profilePic" onChange={props.handleNewProfilePicChange}/><br/>
 
-                <input type="submit" value="Sign Up"/>
+                <input id="submit" type="submit" value="sign up"/>
             </form>
         </>
     )

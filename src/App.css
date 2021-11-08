@@ -1,11 +1,18 @@
 body {
      background-image: url(https://i.imgur.com/qu4DvZc.jpeg);
      color: white;
-     font-family: 'Chakra Petch'
+     font-family: 'Chakra Petch';
+     text-align: center;
+     text-transform: lowercase;
 }
 
-nav {
-    /* background-color: blanchedalmond; */
+#nav {
+     list-style-type: none;
+     padding-inline-start: 0px;
+     display: flex;
+     justify-content: space-between;
+     padding: 0 40px 0 40px;
+     background-color: rgb(0,0,0, .2);
 }
 li form {
     display: none;
@@ -15,6 +22,21 @@ li form {
 }
 .journal-entry {
     display: none;
+}
+
+main {
+     width: 1000px;
+     margin: 0 auto;
+     padding-top: 60px;
+}
+
+#main-title {
+     color: whitesmoke;
+     animation: 2s ease-out 0s 1 slideIn;
+     font-style: italic;
+     font-size: 50px;
+     text-shadow: -4px .5px 8px #ebf4ff;
+     padding: 50px;
 }
 
 #index {
@@ -29,8 +51,8 @@ li form {
 }
 
 #modal {
-     display:none;
-	background-color: rgba(0,0,0,0.4);
+     display: none;
+	background-color: rgba(0,0,0,0.8);
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -41,18 +63,23 @@ li form {
 }
 
 #modal-textbox {
-	background-color: white;
-	height: 350px;
-	width: 550px;
-	border-radius: 2px;
+	background-color: rgba(0,0,0,1);
+	height: 250px;
+	width: 450px;
+	border-radius: 7px;
      margin: 150px auto;
      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+     padding: 20px;
+     padding-top: 50px;
+     animation-name: glow;
+     animation-duration: 10s;
+     animation-iteration-count: infinite;
 }
 
 .even {
      width: 10px;
      height: 10px;
-     background-color: #ebf4ff;
+     background-color: skyblue;
      border-radius: 9px;
      border: 1px solid gray;
      margin-top: 50px;
@@ -75,7 +102,7 @@ li form {
 .letter {
      width: 10px;
      height: 10px;
-     background-color: whitesmoke;
+     background-color: palegoldenrod;
      border-radius: 9px;
      margin-top: 60px;
      animation-name: glow;
@@ -83,6 +110,38 @@ li form {
      animation-iteration-count: infinite;
 }
 
+#share-secret-form {
+     padding-top: 100px;
+}
+
+button {
+     background-color: skyblue;
+     padding: 7px;
+     color: white;
+     border-radius: 4px;
+     margin: 10px;
+}
+
+input[type=submit] {
+     background-color: pink;
+     padding: 10px;
+     border-radius: 4px;
+}
+
+#submit {
+     background-color: pink;
+     padding: 10px;
+     border-radius: 4px;
+}
+
+label {
+    padding: 10px;
+}
+
+
+input[type=text]:focus {
+    border-color:#333;
+}
 
 @keyframes glow {
      0% {
@@ -100,5 +159,14 @@ li form {
      100% {
           box-shadow: 4px 4px 30px 1px gray, -4px -4px 30px 1px gray;
           transition: ease-in .5s;
+     }
+}
+
+@keyframes slideIn {
+     0% {
+          transform: translateX(-100%);
+     }
+     100% {
+          transform: translateX(0)
      }
 }
