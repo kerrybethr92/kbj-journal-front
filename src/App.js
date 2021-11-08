@@ -244,7 +244,7 @@ const App = () => {
           </nav>
           <main>
                <h2>entries</h2>
-               <ul>
+               <ul id="index">
             {
                 entries.map((entry) => {
                      if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
