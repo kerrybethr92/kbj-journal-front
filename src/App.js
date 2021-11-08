@@ -141,22 +141,6 @@ const App = () => {
     const handleNewProfilePicChange = (event) => {
         setNewProfilePic(event.target.value);
     }
-    // const showJournalEntry = (event) => {
-    //     let journalEntry = document.getElementById('journal-entry');
-    //     if (journalEntry.style.display === "none") {
-    //         journalEntry.style.display = "block"
-    //     } else {
-    //         journalEntry.style.display = "none";
-    //     }
-    // }
-    // const openSecret = () => {
-    //      let secret = document.getElementById("secret")
-    //      if (secret.id === 'secret') {
-    //           document.getElementById("secret").classList.toggle('show')
-    //      } else {
-    //           document.getElementById("secret").classList.remove('show')
-    //      }
-    // }
 
     const showSignUp = () => {
         let signUp = document.getElementById('sign-up');
@@ -209,11 +193,29 @@ const App = () => {
         })
     }
 
+    const openModalButton = () => {
+        let modal = document.getElementById('modal');
+        if (modal.style.display === "none") {
+            modal.style.display = "block"
+        } else {
+            modal.style.display = "none";
+        }
+    }
+
+    const closeModalButton = () => {
+        let modal = document.getElementById('modal');
+        if (modal.style.display === "none") {
+            modal.style.display = "block"
+        } else {
+            modal.style.display = "none";
+        }
+    }
+
     return (
         <>
         <Header/>
         <nav>
-            <ul id="nav">
+            <ul>
                 <li>Home</li>
                 {currentUser && <li>Welcome {currentUser.username}</li>}
                 <li><button onClick={showSignUp}>Sign Up</button>
@@ -239,70 +241,34 @@ const App = () => {
             </ul>
         </nav>
         <main>
-            <h2 id="main-title">secret universe</h2>
-            <div id="secret-container">
-                 <ul id="index">
-                 {
-                     entries.map((entry) => {
-                         if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
-                              return <li id="secret" className="even" key={entry._id}>
-                                   <div className="secret-contents">
-                                   {entry.date}<br/>
-                                   {entry.title}<br/>
-                                   <p id={entry._id}>{entry.log}</p><br/>
-                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                                   <EditEntry
-                                       handleNewDateChange={handleNewDateChange}
-                                       handleNewTitleChange={handleNewTitleChange}
-                                       handleNewLogChange={handleNewLogChange}
-                                       handleNewShareChange={handleNewShareChange}
-                                       handleEditEntrySubmit={handleEditEntrySubmit}
-                                       entry={entry}
-                                   />
-                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                                   </div>
-                              </li>
-                         } else if (parseInt(entry._id.charAt(entry._id.length-1)) % 1 === 0) {
-                              return <li id="secret" className="odd" key={entry._id}>
-                                   <div className="secret-contents">
-                                   {entry.date}<br/>
-                                   {entry.title}<br/>
-                                   <p id={entry._id}>{entry.log}</p><br/>
-                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                                   <EditEntry
-                                       handleNewDateChange={handleNewDateChange}
-                                       handleNewTitleChange={handleNewTitleChange}
-                                       handleNewLogChange={handleNewLogChange}
-                                       handleNewShareChange={handleNewShareChange}
-                                       handleEditEntrySubmit={handleEditEntrySubmit}
-                                       entry={entry}
-                                   />
-                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                                   </div>
-                              </li>
-                         } else {
-                              return <li id="secret" className="letter" key={entry._id}>
-                                   <div className="secret-contents">
-                                   {entry.date}<br/>
-                                   {entry.title}<br/>
-                                   <p id={entry._id}>{entry.log}</p><br/>
-                                   <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                                   <EditEntry
-                                       handleNewDateChange={handleNewDateChange}
-                                       handleNewTitleChange={handleNewTitleChange}
-                                       handleNewLogChange={handleNewLogChange}
-                                       handleNewShareChange={handleNewShareChange}
-                                       handleEditEntrySubmit={handleEditEntrySubmit}
-                                       entry={entry}
-                                   />
-                                   <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                                   </div>
-                              </li>
-                         }
-                     })
-                 }
-                 </ul>
-            </div>
+            <h2>Journal Entries</h2>
+            <ul>
+            {
+                entries.map((entry) => {
+                    return <div>
+                    <button id="openModal" onClick={openModalButton}></button>
+                         <div id="modal">
+                         <div id="modal-textbox">
+                              <button id="closeModal" onClick={closeModalButton}>close</button>
+                              <p id={entry._id}>{entry.log}</p><br/>
+                              <p>{entry.date}</p><br/>
+                              <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
+                              <EditEntry
+                                  handleNewDateChange={handleNewDateChange}
+                                  handleNewTitleChange={handleNewTitleChange}
+                                  handleNewLogChange={handleNewLogChange}
+                                  handleNewShareChange={handleNewShareChange}
+                                  handleEditEntrySubmit={handleEditEntrySubmit}
+                                  entry={entry}
+                              />
+                              <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
+
+                         </div>
+                         </div>
+                         </div>
+                })
+            }
+            </ul>
             <h2>Write a new journal entry:</h2>
             <NewEntry
                 handleNewDateChange={handleNewDateChange}
@@ -317,53 +283,3 @@ const App = () => {
 
 
 export default App;
-
-
-///// ~~~~~ graveyard ~~~~~~ ////
-// <section>
-//
-// </section>
-// <section>
-//     {
-//         users.map((user) => {
-//             return (<div>
-//                     <h3>user.username</h3>
-//                     <img src={user.photo} alt="profile photo of user"/>
-//                     <button>View Profile</button>
-//                 </div>
-//             )
-//         })
-//     }
-// </section>
-
-// // nav bar to include: link to homepage, log in, sign up, create new entry
-// // divs in sections will be user's card with name and photo
-// // footer will stay at bottom of page and have links to our githubs, etc
-//
-// const showLogIn = () => {
-//     let logIn = document.getElementById('log-in');
-//     if (logIn.style.display === "none") {
-//         logIn.style.display = "block"
-//     } else {
-//         logIn.style.display = "none"
-//     }
-// }
-//
-// const showSignUp = () => {
-//     let signUp = document.getElementById('sign-up');
-//     if (signUp.style.display === "none") {
-//         signUp.style.display = "block"
-//     } else {
-//         signUp.style.display = "none";
-//     }
-//
-// }
-//
-// const showNewEntryBox = () => {
-//     let entryForm = document.getElementById('new-entry');
-//     if (entryForm.style.display === "none") {
-//         entryForm.style.display = "block"
-//     } else {
-//         entryForm.style.display = "none";
-//     }
-// }
