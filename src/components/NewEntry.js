@@ -3,6 +3,7 @@ import React from 'react'
 const NewEntry = (props) => {
 
     return (
+
         <form id="newSecret" onSubmit={props.handleNewEntrySubmit}>
           <label for="date">Date:</label>
           <input type="date" name="date" onChange={props.handleNewDateChange}/><br/><br/>
@@ -12,6 +13,7 @@ const NewEntry = (props) => {
           <textarea name="log" onChange={props.handleNewLogChange}/><br/><br/>
           
           <input id="submit" type="submit" value="share secret with universe"/>
+
         </form>
     )
 }

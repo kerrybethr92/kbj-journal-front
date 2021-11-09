@@ -31,13 +31,70 @@ const App = () => {
     const [newProfilePic, setNewProfilePic] = useState('')
 
     const [users, setUsers] = useState([])
-    const [currentUser, setCurrentUser] = useState(undefined)
+    // const [currentUser, setCurrentUser] = useState(undefined)
 
     ///////////////////////
     //// log in states ////
     ///////////////////////
     const [toggleError, setToggleError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [toggleLogin, setToggleLogin] = useState(true)
+
+
+    const [toggleLogout, setToggleLogout] = useState(false)
+    const [currentUser, setCurrentUser] = useState({})
+
+    const handleLogout = () => {
+    setCurrentUser({})
+    handleToggleLogout()
+  }
+  const handleToggleForm = () => {
+   setToggleError(false)
+   if(toggleLogin === true) {
+     setToggleLogin(false)
+   } else {
+     setToggleLogin(true)
+   }
+ }
+
+ const handleToggleLogout = () => {
+   if(toggleLogout) {
+     setToggleLogout(false)
+   } else {
+     setToggleLogout(true)
+   }
+ }
+ const handleLogin = (userObj) => {
+      console.log(userObj);
+    axios.put('https://journal-back-kbj.herokuapp.com/users/login', userObj).then((response) => {
+      if(response.data.username){
+        console.log(response);
+        setToggleError(false)
+        setErrorMessage('')
+        setCurrentUser(response.data)
+        handleToggleLogout()
+      } else {
+        console.log(response);
+        setToggleError(true)
+        setErrorMessage(response.data)
+      }
+    })
+  }
+
+  const handleCreateUser = (userObj) => {
+    axios.post('https://journal-back-kbj.herokuapp.com/users/createaccount', userObj).then((response) => {
+      if(response.data.username){
+        console.log(response);
+        setToggleError(false)
+        setErrorMessage('')
+        setCurrentUser(response.data)
+        handleToggleLogout()
+      } else {
+        setErrorMessage(response.data)
+        setToggleError(true)
+      }
+    })
+  }
 
     useEffect(() => {
         axios
@@ -46,6 +103,16 @@ const App = () => {
                 setEntries(response.data)
             })
     },[])
+
+
+    const showNewSecretForm = () => {
+        let newSecret = document.getElementById('new-secret');
+        if (newSecret.style.display === "none") {
+            newSecret.style.display = "block"
+        } else {
+            newSecret.style.display = "none";
+        }
+    }
 
     const handleNewEntrySubmit = (event) => {
         event.preventDefault();
@@ -352,6 +419,7 @@ const App = () => {
                />
                </div>
           </main>
+
     </>)
 }
 

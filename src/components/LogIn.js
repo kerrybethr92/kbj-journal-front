@@ -10,21 +10,23 @@ const LogIn = (props) => {
             username: username,
             password: password
         }
-        props.handleNewLogIn(userObj)
+        props.handleLogin(userObj)
     }
     return (
         <>
-            <form id="log-in" onSubmit={triggerLogin}>
-                <label for="username">User name:</label>
-                <input type="text" placeholder="username" required onChange={(event)=>{setUsername(event.target.value)}}/><br/>
+          <div className="formContainer">
+               <h1 class="formTitle">Login</h1>
+               <form id="log-in" onSubmit={triggerLogin}>
+                    <label for="username">User name:</label>
+                    <input type="text" placeholder="username" required onChange={(event)=>{setUsername(event.target.value)}}/><br/>
 
-                <label for="password"> Password:</label>
-                <input type="password" name="password" required onChange={(event)=> {setPassword(event.target.value)}}/><br/>
+                    <label for="password"> Password:</label>
+                    <input type="password" name="password" required onChange={(event)=> {setPassword(event.target.value)}}/><br/>
 
-                <input id="submit" type="submit" value="login"/>
-            </form>
-        </>
-    )
+                  <input id="submit" type="submit" value="login"/>
+              </form>
+          </>
+       )
 }
 
 export default LogIn;
