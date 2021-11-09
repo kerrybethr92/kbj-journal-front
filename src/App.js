@@ -134,13 +134,15 @@ const App = () => {
         event.target.reset();
     }
     const handleShowEditForm = (event) => {
+        // event.stopPropagation()
         let editForm = event.target.parentNode.querySelector('form');
-        if (editForm.style.display === "none") {
-            editForm.style.display = 'block'
-        } else {
+        if (editForm.style.display !== "block") {
             editForm.style.display = 'none'
+        } else {
+            editForm.style.display = 'block'
         }
     }
+
     const handleEditEntrySubmit = (event, entryData) => {
         event.preventDefault();
         axios
@@ -208,14 +210,6 @@ const App = () => {
     const handleNewProfilePicChange = (event) => {
         setNewProfilePic(event.target.value);
     }
-    // const showJournalEntry = (event) => {
-    //     let journalEntry = document.getElementById('journal-entry');
-    //     if (journalEntry.style.display === "none") {
-    //         journalEntry.style.display = "block"
-    //     } else {
-    //         journalEntry.style.display = "none";
-    //     }
-    // }
 
     const showSignUp = () => {
         let signUp = document.getElementById('sign-up');
@@ -268,116 +262,166 @@ const App = () => {
         })
     }
 
+    const showNewSecretForm = () => {
+        let secretForm = document.getElementById('newSecret');
+        if (secretForm.style.display === "none") {
+            secretForm.style.display = "block"
+        } else {
+            secretForm.style.display = "none";
+        }
+    }
+
+    // oh dear, if it weren't for sam, i would not have been able to figure out an issue with having the same id causing an issue with my mapping.
+    const openModalButton = (modalId) => {
+        let modal = document.getElementById(modalId);
+        console.log(modal);
+        console.log("from open modal function");
+        if (modal.style.display !== "block") {
+            modal.style.display = "block"
+        }
+    }
+    //
+    const closeModalButton = (event) => {
+        event.stopPropagation() // Sam helped me figure out that my second onClick function was bubbling and by adding this on my second click function, it would prevent bubbling
+        console.log("hi");
+        let modals = document.getElementsByClassName('modal');
+        console.log(modals);
+        for (let i = 0; i < modals.length; i++) {
+             modals[i].style.display = "none"
+        }
+        // if (modal.style.display !== "none") {
+        //      modal.style.display = "none"
+        //      console.log(modal.style.display);
+        //      console.log(modal);
+        // } else {
+        //      console.log(modal.style.display);
+        // }
+    }
+
     return (
-        <>
-        <Header/>
-        <nav>
-        <div className="App">
-              <div>
-                {toggleLogout ?
-                  <button onClick={handleLogout} class='logoutBtn'>Logout</button> :
-                  <div class='appFormDiv'>
-                    {toggleLogin ?
-                    <LogIn handleLogin={handleLogin} toggleError={toggleError} errorMessage={errorMessage}/>
-                    :
-                    <SignUp handleCreateUser={handleCreateUser} toggleError={toggleError} errorMessage={errorMessage}/>
-                    }
-                    <button onClick={handleToggleForm} class='accountBtn'>{toggleLogin ? 'Need an account?' : 'Already have an account?'}</button>
-                  </div>
-                }
-
-
-              </div>
-              {currentUser.username ?
-                <div class='loggedInDiv'>
-                  <h1>This entire div will only show if a user is currently logged in</h1>
-                  <h2>So you could show profile info, or whatever else you want to be authentication protected!</h2>
-                  <h3>And you could even stick other React components in here!</h3>
-                </div>
-                :
-                null
-              }
-            </div>
-            
-        </nav>
-        <main>
-            <h2>Journal Entries</h2>
-            <ul>
+          <>
+          <Header/>
+          <nav>
+               <ul id="nav">
+                    <li>Home</li>
+                    {currentUser && <li>Welcome {currentUser.username}</li>}
+                    <li><button onClick={showSignUp}>Sign Up</button>
+                    <SignUp
+                        handleNewNameChange={handleNewNameChange}
+                        handleNewUsernameChange={handleNewUsernameChange}
+                        handleNewPasswordChange={handleNewPasswordChange}
+                        handleNewBioChange={handleNewBioChange}
+                        handleNewProfilePicChange={handleNewProfilePicChange}
+                        handleNewSignUp={handleNewSignUp}
+                        setCurrentUser={setCurrentUser}
+                    />
+                    </li>
+                    <li><button onClick={showLogIn}>Log in</button></li>
+                    <LogIn
+                        handleNewLogIn={handleNewLogIn}
+                        toggleError={toggleError}
+                        errorMessage={errorMessage}
+                    />
+               </ul>
+          </nav>
+          <main>
+               <ul id="index">
             {
                 entries.map((entry) => {
-                    return <li key={entry._id}>
-                    {entry.date}<br/>
-                    {entry.title}<br/>
-                    <p id={entry._id}>{entry.log}</p><br/>
-                    <button onClick={(event)=>{handleShowEditForm(event)}}>Edit</button>
-                    <EditEntry
-                        handleNewDateChange={handleNewDateChange}
-                        handleNewTitleChange={handleNewTitleChange}
-                        handleNewLogChange={handleNewLogChange}
-                        handleNewShareChange={handleNewShareChange}
-                        handleEditEntrySubmit={handleEditEntrySubmit}
-                        entry={entry}
-                    />
-                    <button onClick={(event) => {handleDelete(entry)}}>Delete</button>
-                    </li>
+                     console.log(parseInt(entry._id.charAt(entry._id.length-1)));
+                     console.log(entry.log);
+                     console.log(entry.date);
+                     if (parseInt(entry._id.charAt(entry._id.length-1)) % 2 === 0) {
+                          return (
+                          <div>
+                               <div className="even" id={`openModal${entry._id}`} onClick={() => {openModalButton(`modal${entry._id}`)}} key={entry._id}>
+                               </div>
+                               <div className="modal" id={`modal${entry._id}`}>
+                                     <div className="modal-textbox" id={`modal-textbox${entry._id}`} key={entry._id}>
+                                         <button id="closeModal" onClick={closeModalButton}>close</button>
+                                         <p>{entry.log}</p><br/>
+                                         <p>{entry.date}</p><br/>
+                                         <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
+                                         <EditEntry
+                                              handleNewDateChange={handleNewDateChange}
+                                              handleNewTitleChange={handleNewTitleChange}
+                                              handleNewLogChange={handleNewLogChange}
+                                              handleNewShareChange={handleNewShareChange}
+                                              handleEditEntrySubmit={handleEditEntrySubmit}
+                                              entry={entry}
+                                         />
+                                         <button onClick={(event) => {handleDelete(entry)}}>delete</button>
+                                     </div>
+                                </div>
+                          </div>
+                         )
+                     } else if (parseInt(entry._id.charAt(entry._id.length-1)) % 1 === 0) {
+                          return (
+                              <div>
+                               <div className="odd" id={`openModal${entry._id}`} onClick={() => {openModalButton(`modal${entry._id}`)}} key={entry._id}>
+                               </div>
+                               <div className="modal" id={`modal${entry._id}`}>
+                                     <div className="modal-textbox" id={`modal-textbox${entry._id}`} key={entry._id}>
+                                         <button id="closeModal" onClick={closeModalButton}>close</button>
+                                         <p>{entry.log}</p><br/>
+                                         <p>{entry.date}</p><br/>
+                                         <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
+                                         <EditEntry
+                                              handleNewDateChange={handleNewDateChange}
+                                              handleNewTitleChange={handleNewTitleChange}
+                                              handleNewLogChange={handleNewLogChange}
+                                              handleNewShareChange={handleNewShareChange}
+                                              handleEditEntrySubmit={handleEditEntrySubmit}
+                                              entry={entry}
+                                         />
+                                         <button onClick={(event) => {handleDelete(entry)}}>delete</button>
+                                     </div>
+                                </div>
+                          </div>
+                         )
+                     } else {
+                          return (
+                          <div>
+                               <div className="letter" id={`openModal${entry._id}`} onClick={() => {openModalButton(`modal${entry._id}`)}} key={entry._id}>
+                               </div>
+                               <div className="modal" id={`modal${entry._id}`}>
+                                     <div className="modal-textbox" id={`modal-textbox${entry._id}`} key={entry._id}>
+                                         <button id="closeModal" onClick={closeModalButton}>close</button>
+                                         <p>{entry.log}</p><br/>
+                                         <p>{entry.date}</p><br/>
+                                         <button onClick={(event)=>{handleShowEditForm(event)}}>edit</button>
+                                         <EditEntry
+                                              handleNewDateChange={handleNewDateChange}
+                                              handleNewTitleChange={handleNewTitleChange}
+                                              handleNewLogChange={handleNewLogChange}
+                                              handleNewShareChange={handleNewShareChange}
+                                              handleEditEntrySubmit={handleEditEntrySubmit}
+                                              entry={entry}
+                                         />
+                                         <button onClick={(event) => {handleDelete(entry)}}>delete</button>
+                                     </div>
+                                </div>
+                          </div>
+                         )
+                     }
+
                 })
             }
             </ul>
-            <h2>Write a new journal entry:</h2>
+               <div id="share-secret-form">
+               <h2>share a secret</h2>
+               <NewEntry
+                    handleNewDateChange={handleNewDateChange}
+                    handleNewTitleChange={handleNewTitleChange}
+                    handleNewLogChange={handleNewLogChange}
+                    handleNewShareChange={handleNewShareChange}
+                    handleNewEntrySubmit={handleNewEntrySubmit}
+               />
+               </div>
+          </main>
 
-        </main>
     </>)
 }
 
 
 export default App;
-
-
-///// ~~~~~ graveyard ~~~~~~ ////
-// <section>
-//
-// </section>
-// <section>
-//     {
-//         users.map((user) => {
-//             return (<div>
-//                     <h3>user.username</h3>
-//                     <img src={user.photo} alt="profile photo of user"/>
-//                     <button>View Profile</button>
-//                 </div>
-//             )
-//         })
-//     }
-// </section>
-
-// // nav bar to include: link to homepage, log in, sign up, create new entry
-// // divs in sections will be user's card with name and photo
-// // footer will stay at bottom of page and have links to our githubs, etc
-//
-// const showLogIn = () => {
-//     let logIn = document.getElementById('log-in');
-//     if (logIn.style.display === "none") {
-//         logIn.style.display = "block"
-//     } else {
-//         logIn.style.display = "none"
-//     }
-// }
-//
-// const showSignUp = () => {
-//     let signUp = document.getElementById('sign-up');
-//     if (signUp.style.display === "none") {
-//         signUp.style.display = "block"
-//     } else {
-//         signUp.style.display = "none";
-//     }
-//
-// }
-//
-// const showNewEntryBox = () => {
-//     let entryForm = document.getElementById('new-entry');
-//     if (entryForm.style.display === "none") {
-//         entryForm.style.display = "block"
-//     } else {
-//         entryForm.style.display = "none";
-//     }
-// }
