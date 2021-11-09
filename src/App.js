@@ -68,8 +68,9 @@ const App = () => {
     }
     const handleShowEditForm = (event) => {
         // event.stopPropagation()
+        // let editForm = document.findElementById('editForm');
         let editForm = event.target.parentNode.querySelector('form');
-        if (editForm.style.display !== "block") {
+        if (editForm.style.display === "block") {
             editForm.style.display = 'none'
         } else {
             editForm.style.display = 'block'
@@ -186,6 +187,7 @@ const App = () => {
                 setToggleError(false)
                 setErrorMessage('')
                 setCurrentUser(response.data)
+                // showLogIn();
 
             } else {
                 console.log(response);
@@ -193,6 +195,9 @@ const App = () => {
                 setErrorMessage(response.data)
             }
         })
+    }
+    const handleLogOut = () => {
+        setCurrentUser(undefined)
     }
 
     const showNewSecretForm = () => {
@@ -238,7 +243,8 @@ const App = () => {
                <ul id="nav">
                     <li>Home</li>
                     {currentUser && <li>Welcome {currentUser.username}</li>}
-                    <li><button onClick={showSignUp}>Sign Up</button>
+                    {currentUser && <li><button onClick={handleLogOut}>Log Out</button></li>}
+                    {!currentUser && <li><button onClick={showSignUp}>Sign Up</button>
                     <SignUp
                         handleNewNameChange={handleNewNameChange}
                         handleNewUsernameChange={handleNewUsernameChange}
@@ -248,13 +254,16 @@ const App = () => {
                         handleNewSignUp={handleNewSignUp}
                         setCurrentUser={setCurrentUser}
                     />
-                    </li>
-                    <li><button onClick={showLogIn}>Log in</button></li>
+                    </li>}
+                    {!currentUser &&
+                    <li><button onClick={showLogIn}>Log in</button>
                     <LogIn
                         handleNewLogIn={handleNewLogIn}
                         toggleError={toggleError}
                         errorMessage={errorMessage}
                     />
+                    </li> }
+
                </ul>
           </nav>
           <main>
@@ -341,7 +350,7 @@ const App = () => {
                 })
             }
             </ul>
-               <div id="share-secret-form">
+               {currentUser && <div id="share-secret-form">
                <h2>share a secret</h2>
                <NewEntry
                     handleNewDateChange={handleNewDateChange}
@@ -350,7 +359,7 @@ const App = () => {
                     handleNewShareChange={handleNewShareChange}
                     handleNewEntrySubmit={handleNewEntrySubmit}
                />
-               </div>
+               </div>}
           </main>
     </>)
 }
