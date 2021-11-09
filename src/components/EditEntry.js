@@ -2,7 +2,7 @@ import React from 'react'
 
 const EditEntry = (props) => {
     return (
-        <form onSubmit={(event) => {props.handleEditEntrySubmit(event, props.entry)}}>
+        <form id="editForm" onSubmit={(event) => {props.handleEditEntrySubmit(event, props.entry)}}>
             <label for="date">Date:</label>
             <input type="date" name="date" onChange={props.handleNewDateChange}/><br/>
 
